@@ -11,8 +11,15 @@ import tools.Statut;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * Classe abstraite Equipe qui implémente le comportement humain et IA
+ *
+ * @author Julian TRANI 1A SRI
+ */
 public abstract class Equipe implements Humain, Ia {
+    // Attributs
     protected Vector<Navire> listeNavire;
     protected Statut myStatut;
     protected Commande myCommande;
@@ -22,6 +29,7 @@ public abstract class Equipe implements Humain, Ia {
     private Random rd;
     private Scanner sc;
 
+    // Constructeur
     public Equipe(Nature n, Couleur couleur) {
         this.listeNavire = new Vector<>();
         this.myNature = n;
@@ -30,14 +38,33 @@ public abstract class Equipe implements Humain, Ia {
         this.couleur = couleur;
     }
 
-    public void setStatut(Statut s) {
-        myStatut = s;
+    // GETTER / SETTER
+    @Override
+    public Vector<Navire> getListeNavire() {
+        return listeNavire;
+    }
+
+    public int getId() {
+        return ident;
+    }
+
+    public Nature getNature() {
+        return myNature;
     }
 
     public Statut getStatut() {
         return myStatut;
     }
 
+    public void setStatut(Statut s) {
+        myStatut = s;
+    }
+
+    /**
+     * Retourne la commande jouée selon si la nature de l'équipe
+     *
+     * @return la commande
+     */
     public Commande getCommande() {
         if (myNature == Nature.HUMAIN) interrogationParClavier();
         else tirageAleatoire();
@@ -45,6 +72,9 @@ public abstract class Equipe implements Humain, Ia {
         return myCommande;
     }
 
+    /**
+     * Saisie alétoire pour faire jouer le bot
+     */
     public void tirageAleatoire() {
         int idNav = rd.nextInt(listeNavire.size());
         idNav = listeNavire.get(idNav).getId();
@@ -59,21 +89,31 @@ public abstract class Equipe implements Humain, Ia {
         if (idAction < 2) {
             idDirection = rd.nextInt(4);
         }
+        // Simulation comme si l'ordi joue
+        System.out.print("L'ordi est entrain de jouer ...");
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         myCommande = new Commande(this, idNav, idAction, idDirection);
     }
 
+    /**
+     * Saisie au clavier pour jouer un tour
+     */
     public void interrogationParClavier() {
         // Variables
         String strIdNav = "";
         String strAction = "";
         String strDirection = "";
-        System.out.println("Début du tour : ");
+        System.out.println("À vous de jouer ...");
 
         // Saisie et vérification de la saisie du numéro du navire
         do {
             System.out.print("Numéro du navire (de 0 a " + (listeNavire.size() - 1) + ") : ");
             strIdNav = sc.nextLine();
-        } while (Integer.parseInt(strIdNav) < 0 || Integer.parseInt(strIdNav) > (listeNavire.size() - 1));
+        } while (!verifSaisie(strIdNav));
 
         // Saisie et vérification de la saisie du déplacement
         do {
@@ -84,8 +124,7 @@ public abstract class Equipe implements Humain, Ia {
         } while (((myStatut == Statut.MILITAIRE) && (strAction.compareTo("DEPLACEMENT") != 0) && (strAction.compareTo("TIR") != 0)) ||
                 ((myStatut == Statut.NEUTRE) && (strAction.compareTo("DEPLACEMENT") != 0) && (strAction.compareTo("PECHE") != 0)));
 
-        // Initialisation
-        strDirection = "NORD";
+        strDirection = "NORD"; // Initialisation de la variable si jamais on peche
         if (strAction.compareTo("PECHE") != 0) {
             // Saisie et vérification de la saisie de la direction
             do {
@@ -100,29 +139,46 @@ public abstract class Equipe implements Humain, Ia {
         myCommande = new Commande(this, String.valueOf(listeNavire.get(Integer.parseInt(strIdNav)).getId()), strAction, strDirection);
     }
 
-    public String toString() {
-        return "Equipe " + ident + " (" + myStatut + "," + myNature + "), avec " + listeNavire;
+    /**
+     * Vérification de la saisie du numéro de navire
+     *
+     * @param value : chaine de caractère à tester
+     * @return un boolean
+     */
+    public boolean verifSaisie(String value) {
+        // Vérification de la valeur en la convertissant
+        try {
+            int convertValue = Integer.parseInt(value);
+            if (convertValue < 0 || convertValue > (listeNavire.size() - 1)) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
+
+    /**
+     * Ajoute un navire a la liste de l'équipe
+     *
+     * @param nav : le navire à ajouter
+     */
     public void addNavire(Navire nav) {
         listeNavire.add(nav);
     }
 
-    @Override
-    public Vector<Navire> getListeNavire() {
-        return listeNavire;
-    }
-
-    public int getId() {
-        return ident;
-    }
-
+    /**
+     * Retourne l'état de l'équipe
+     *
+     * @return true si elle a perdu false sinon
+     */
     public boolean isPerdu() {
         return listeNavire.size() == 0;
     }
 
-    public Nature getNature() {
-        return myNature;
+    public String toString() {
+        return "Equipe " + ident + " (" + myStatut + "," + myNature + "), avec " + listeNavire;
     }
-
 }

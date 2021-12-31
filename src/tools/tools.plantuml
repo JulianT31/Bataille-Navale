@@ -18,6 +18,14 @@ title __TOOLS's Class Diagram__\n
       enum Couleur {
         ANSI_BLACK
         ANSI_BLUE
+        ANSI_BRIGHT_BLACK
+        ANSI_BRIGHT_BLUE
+        ANSI_BRIGHT_CYAN
+        ANSI_BRIGHT_GREEN
+        ANSI_BRIGHT_MAGENTA
+        ANSI_BRIGHT_RED
+        ANSI_BRIGHT_WHITE
+        ANSI_BRIGHT_YELLOW
         ANSI_CYAN
         ANSI_GREEN
         ANSI_PURPLE
@@ -66,7 +74,8 @@ title __TOOLS's Class Diagram__\n
   namespace  {
     namespace ools {
       class tools.ToolCouleur {
-          {static} + printlnCouleur()
+          {static} + printCouleur()
+          {static} + printCouleur()
       }
     }
   }

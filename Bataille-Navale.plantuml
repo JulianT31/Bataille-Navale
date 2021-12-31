@@ -2,157 +2,168 @@
 
 title __BATAILLE-NAVALE's Class Diagram__\n
 
-
     class Main {
     }
+  
 
-    namespace Equipe {
+    namespace quipe {
       class equipe.EqBataillon {
       }
     }
+  
 
-    namespace Equipe {
+    namespace quipe {
       class equipe.EqPecheur {
       }
     }
   
 
-    namespace Equipe {
+    namespace quipe {
       abstract class equipe.Equipe {
       }
     }
+  
 
-    namespace Exceptions {
+    namespace xceptions {
+      class exceptions.JeuException {
+      }
+    }
+  
+
+    namespace xceptions {
       class exceptions.LimiteException {
       }
     }
   
 
-    namespace Exceptions {
+    namespace xceptions {
       class exceptions.OccupException {
       }
     }
+  
 
-    namespace Joueur {
+    namespace oueur {
       interface joueur.Humain {
       }
     }
-  
 
-    namespace Joueur {
+    namespace oueur {
       interface joueur.Ia {
       }
     }
-  
 
-    namespace Joueur {
+    namespace oueur {
       interface joueur.Joueur {
       }
     }
   
 
-    namespace Manager {
+    namespace anager {
       class manager.Commande {
       }
     }
+  
 
-    namespace Manager {
+    namespace anager {
       class manager.Jeu {
       }
     }
+  
 
-    namespace Navire {
+    namespace avire {
       class navire.Chalutier {
       }
     }
   
 
-    namespace Navire {
+    namespace avire {
       class navire.Destroyer {
       }
     }
   
 
-    namespace Navire {
+    namespace avire {
       abstract class navire.Navire {
       }
     }
   
 
-    namespace Navire {
+    namespace avire {
       abstract class navire.NavireProfondeur {
       }
     }
   
-  namespace Navire {
+
+    namespace avire {
       abstract class navire.NavireSurface {
       }
     }
-  
 
-    namespace Navire {
+    namespace avire {
       class navire.SousMarin {
       }
     }
-  
 
     namespace lateau {
       class plateau.CasePlateau {
       }
     }
+  
 
-    namespace Plateau {
+    namespace lateau {
       class plateau.Plateau {
       }
     }
   
 
-    namespace Tools {
+    namespace ools {
       enum Action {
       }
     }
   
 
-    namespace Tools {
+    namespace ools {
       enum Couleur {
       }
     }
   
 
-    namespace Tools {
+    namespace ools {
       enum Direction {
       }
     }
-  
 
-    namespace Tools {
+    namespace ools {
       enum Nature {
       }
     }
   
 
-    namespace Tools {
+    namespace ools {
       enum Statut {
       }
     }
   
 
-    namespace Tools {
+    namespace ools {
       class tools.ToolCouleur {
       }
     }
   
 
-    namespace Tools {
+    namespace ools {
       enum TypeNav {
       }
     }
   
 
   equipe.EqBataillon -up-|> equipe.Equipe
+
+  joueur.Ia -up-|> joueur.Joueur
   equipe.EqPecheur -up-|> equipe.Equipe
   equipe.Equipe .up.|> joueur.Humain
   equipe.Equipe .up.|> joueur.Ia
+  equipe.Equipe o-- tools.Couleur : couleur
   equipe.Equipe o-- manager.Commande : myCommande
   equipe.Equipe o-- tools.Nature : myNature
   equipe.Equipe o-- tools.Statut : myStatut
@@ -166,6 +177,8 @@ title __BATAILLE-NAVALE's Class Diagram__\n
   navire.NavireProfondeur -up-|> navire.Navire
   navire.NavireSurface -up-|> navire.Navire
   navire.SousMarin -up-|> navire.NavireProfondeur
+  plateau.CasePlateau o-- navire.Navire : occupant
+  plateau.CasePlateau o-- navire.NavireProfondeur : sousmarin
 
 
 right footer

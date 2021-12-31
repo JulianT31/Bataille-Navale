@@ -4,6 +4,9 @@ import joueur.Joueur;
 import tools.Couleur;
 import tools.ToolCouleur;
 
+/**
+ * Classe Plateau
+ */
 public class Plateau {
     // Attributs
     private int taille;
@@ -45,11 +48,12 @@ public class Plateau {
         return cpt;
     }
 
+    /**
+     * Affichage le plateau et les bateaux du joueur qui joue en couleur (si le paramètre n'est pas null)
+     *
+     * @param joueur : (NULLABLE !) le joueur qui est entrain de jouer
+     */
     public void affiche(Joueur joueur) {
-//        System.out.println("================");
-//        System.out.println("  Plateau : ");
-//        System.out.println("================");
-
         System.out.print("      ");
         // Affichage des coordonnées
         for (int i = 0; i < this.taille; i++) {
@@ -63,44 +67,30 @@ public class Plateau {
         }
 
         System.out.print("\n");
-        for (int i = 0; i < this.taille; i++) {
+        for (int i = 0; i < this.taille; i++) { // COLONNE
             // Affichage selon la coordonnée pour avoir la même taille
             if (i + 1 < 10) {
                 System.out.print(" " + i);
-//                ToolCouleur.printCouleur(" " + i, Couleur.ANSI_WHITE);
                 System.out.print(" | ");
             } else {
                 System.out.print(i);
-//                ToolCouleur.printCouleur(String.valueOf(i), Couleur.ANSI_WHITE);
                 System.out.print(" | ");
             }
 
-            for (int j = 0; j < this.taille; j++) {
+            for (int j = 0; j < this.taille; j++) { // LIGNE
+                CasePlateau caseActuel = this.matricePlateau[i][j];
+
                 // Si la case ne contient pas de navire
-                if (this.matricePlateau[i][j].toString().contains("~")) {
-                    ToolCouleur.printCouleur(this.matricePlateau[i][j].toString() + " ", Couleur.ANSI_BLUE);
+                if (caseActuel.toString().contains("~")) {
+                    ToolCouleur.printCouleur(caseActuel + " ", Couleur.ANSI_BLUE);
                 } else {
                     // Si on a passé  une équipe en param
                     if (joueur != null) {
-                        // Vérification que l'ID de l'équipe correspond à celui du navire
-                        if (this.matricePlateau[i][j].isEstOccupeeSurface()) {
-                            if (joueur.getId() == this.matricePlateau[i][j].getOccupantSurface().getNumEq()) {
-                                // Affichage couleur
-                                ToolCouleur.printCouleur(this.matricePlateau[i][j].toString() + " ", Couleur.ANSI_YELLOW);
-                            } else {
-                                System.out.print(this.matricePlateau[i][j].toString() + " ");
-                            }
-
-                        } else if (this.matricePlateau[i][j].isEstOccupeeProfondeur()) {
-                            if (joueur.getId() == this.matricePlateau[i][j].getOccupantProfondeur().getNumEq()) {
-                                // Affichage couleur
-                                ToolCouleur.printCouleur(this.matricePlateau[i][j].toString() + " ", Couleur.ANSI_YELLOW);
-                            } else {
-                                System.out.print(this.matricePlateau[i][j].toString() + " ");
-                            }
-                        }
+                        caseActuel.affiche(joueur);
+                        System.out.print(" ");
                     } else {
-                        System.out.print(this.matricePlateau[i][j].toString() + " ");
+                        caseActuel.affiche(null);
+                        System.out.print(" ");
                     }
                 }
 
@@ -114,43 +104,5 @@ public class Plateau {
             System.out.print(" = ");
         }
         System.out.println();
-    }
-
-    @Override
-    public String toString() {
-        String res = "      ";
-
-        // Affichage des coordonnées
-        for (int i = 1; i <= this.taille; i++) {
-            res += i + "   ";
-        }
-
-        // Affichage de la bordure haute ("tirets")
-        res += "\n   ";
-        for (int i = 0; i < (this.taille * 2) * 2 / 3 + 1; i++) {
-            res += " _ ";
-        }
-
-        res += "\n";
-        for (int i = 0; i < this.taille; i++) {
-            // Affichage selon la coordonnée pour avoir la même taille
-            if (i + 1 < 10) {
-                res += " " + (i + 1) + " | ";
-            } else {
-                res += (i + 1) + " | ";
-            }
-
-            for (int j = 0; j < this.taille; j++) {
-                res += this.matricePlateau[i][j].toString() + " ";
-            }
-            res += "|\n";
-        }
-
-        // Affichage de la bordure basse
-        res += "   ";
-        for (int i = 0; i < (this.taille * 2) * 2 / 3 + 1; i++) {
-            res += " _ ";
-        }
-        return res;
     }
 }

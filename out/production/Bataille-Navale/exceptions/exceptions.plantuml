@@ -4,6 +4,15 @@ title __EXCEPTIONS's Class Diagram__\n
 
   namespace  {
     namespace xceptions {
+      class exceptions.JeuException {
+          + JeuException()
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace xceptions {
       class exceptions.LimiteException {
           + LimiteException()
       }

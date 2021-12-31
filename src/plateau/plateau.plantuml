@@ -5,11 +5,15 @@ title __PLATEAU's Class Diagram__\n
   namespace  {
     namespace lateau {
       class plateau.CasePlateau {
-          - estOccupee : boolean
-          - occupants : ArrayList<Navire>
+          - estOccupeeProfondeur : boolean
+          - estOccupeeSurface : boolean
           + CasePlateau()
           + addUnOccupant()
-          + getOccupants()
+          + getOccupantProfondeur()
+          + getOccupantSurface()
+          + isEstOccupeeProfondeur()
+          + isEstOccupeeSurface()
+          + removeUnOccupant()
           + toString()
       }
     }
@@ -22,14 +26,18 @@ title __PLATEAU's Class Diagram__\n
           - matricePlateau : CasePlateau[][]
           - taille : int
           + Plateau()
+          + affiche()
           + getCasePlateau()
           + getMyTaille()
+          + nombreBateauPlateau()
           + toString()
       }
     }
   }
   
 
+  plateau.CasePlateau o-- navire.Navire : occupant
+  plateau.CasePlateau o-- navire.NavireProfondeur : sousmarin
 
 
 right footer

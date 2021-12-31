@@ -2,35 +2,31 @@
 
 title __JOUEUR's Class Diagram__\n
 
-  namespace  {
-    namespace oueur {
+    namespace joueur {
       interface joueur.Humain {
           {abstract} + interrogationParClavier()
       }
     }
-  }
   
 
-  namespace  {
-    namespace oueur {
+    namespace joueur {
       interface joueur.Ia {
           {abstract} + tirageAleatoire()
       }
     }
-  }
   
 
-  namespace  {
-    namespace oueur {
+    namespace joueur {
       interface joueur.Joueur {
           {abstract} + addNavire()
           {abstract} + getCommande()
           {abstract} + getId()
           {abstract} + getListeNavire()
+          {abstract} + getNature()
           {abstract} + getStatut()
+          {abstract} + isPerdu()
       }
     }
-  }
   
 
 

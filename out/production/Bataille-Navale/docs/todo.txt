@@ -1,10 +1,10 @@
 TODO :
 
-[ ] Gestion du Tir avec les sous marins (peut toujours les autres ? et inversement Destroyer peut toucher un sousmarin ?)
-[ ] Faire un menu (appuyer sur une touche pour continuer)
-[ ] Faire l'action de pêche pour les chalutiers
-[ ] Tester si on peut gagner une partie et gestion de l'égalité si même nombre de bateaux encore en vie et pas endommagé
-[ ] Mettre de sleep pour faire genre que les IA jouent
+[X] Gestion du Tir avec les sous marins (peut toujours les autres ? et inversement Destroyer peut toucher un sousmarin ?)
+[X] Faire un menu (appuyer sur une touche pour continuer)
+[X] Faire l'action de pêche pour les chalutiers
+[X] Tester si on peut gagner une partie et gestion de l'égalité si même nombre de bateaux encore en vie et pas endommagé
+[X] Mettre du sleep pour faire genre que les IA jouent
 
 A voir si j'ai le temps (du coup non):
 
@@ -16,3 +16,11 @@ BUG :
 
 [ ] Bug d'affichage couleur sur le plateau quand C et S sur même case mais pas la meme équipe
 [ ] Vider les espaces en fin de ligne dans les saisies
+
+
+Limite du programme:
+
+[ ] Les sous marins peuvent attaquer que les sous marins (idem pour les destroyer)
+[ ] Si une équipe a perdu, on finit quand meme le tour en cours
+[ ] L'égalité n'est pas géré
+[ ] Si il reste que des

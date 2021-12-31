@@ -6,8 +6,6 @@ title __EQUIPE's Class Diagram__\n
       class equipe.EqBataillon {
           + EqBataillon()
           + EqBataillon()
-          + interrogationParClavier()
-          + tirageAleatoire()
       }
     }
   
@@ -16,8 +14,6 @@ title __EQUIPE's Class Diagram__\n
       class equipe.EqPecheur {
           + EqPecheur()
           + EqPecheur()
-          + interrogationParClavier()
-          + tirageAleatoire()
       }
     }
   
@@ -33,8 +29,10 @@ title __EQUIPE's Class Diagram__\n
           + getCommande()
           + getId()
           + getListeNavire()
+          + getNature()
           + getStatut()
           + interrogationParClavier()
+          + isPerdu()
           + setStatut()
           + tirageAleatoire()
           + toString()
@@ -46,6 +44,7 @@ title __EQUIPE's Class Diagram__\n
   equipe.EqPecheur -up-|> equipe.Equipe
   equipe.Equipe .up.|> joueur.Humain
   equipe.Equipe .up.|> joueur.Ia
+  equipe.Equipe o-- tools.Couleur : couleur
   equipe.Equipe o-- manager.Commande : myCommande
   equipe.Equipe o-- tools.Nature : myNature
   equipe.Equipe o-- tools.Statut : myStatut

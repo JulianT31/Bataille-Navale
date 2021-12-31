@@ -2,8 +2,7 @@
 
 title __MANAGER's Class Diagram__\n
 
-  namespace  {
-    namespace anager {
+    namespace manager {
       class manager.Commande {
           - idNavire : int
           + Commande()
@@ -18,24 +17,28 @@ title __MANAGER's Class Diagram__\n
           + toString()
       }
     }
-  }
   
 
-  namespace  {
-    namespace anager {
+    namespace manager {
       class manager.Jeu {
           # joueurs : ArrayList<Joueur>
           # taille : int
           - MAX_NBR_BATEAU : int
+          - NBR_JOUEUR : int
           - fini : boolean
+          - nbTour : int
           - random : Random
           - scanner : Scanner
           + Jeu()
           + affichageJoueurs()
+          + affichageMenu()
           + attributionNavire()
           + choixJoueurs()
           + creationJoueur()
           + finDePartie()
+          + generateNewPosition()
+          + isGagne()
+          + isValidPosition()
           + jouer()
           + majJeuAvCommande()
           + majJeuCasDeplacement()
@@ -45,7 +48,6 @@ title __MANAGER's Class Diagram__\n
           + positionnementNavire()
       }
     }
-  }
   
 
   manager.Commande o-- tools.Action : actionChoisie

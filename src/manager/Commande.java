@@ -1,18 +1,21 @@
 package manager;
 
 import equipe.Equipe;
+import navire.Navire;
 import tools.Action;
 import tools.Direction;
 
 /**
- * Classe commande
+ * Classe commande qui va permettre de savoir l'action réaliser par les joueurs
  */
 public class Commande {
+    // Attributs
     private int idNavire;
     private Action actionChoisie;
     private Direction directionChoisie;
     private Equipe equipe;
 
+    // Constructeur
     public Commande(Equipe eq, int id, int action, int direction) {
         this.equipe = eq;
         this.idNavire = id;
@@ -20,6 +23,7 @@ public class Commande {
         this.directionChoisie = Direction.values()[direction];
     }
 
+    // Constructeur
     public Commande(Equipe eq, String strIdNav, String strAction, String strDirection) {
         this.equipe = eq;
         try {
@@ -41,44 +45,45 @@ public class Commande {
         return idNavire;
     }
 
-    public void setIdNavire(int idNavire) {
-        this.idNavire = idNavire;
-    }
-
     public Action getActionChoisie() {
         return actionChoisie;
-    }
-
-    public void setActionChoisie(Action actionChoisie) {
-        this.actionChoisie = actionChoisie;
     }
 
     public Direction getDirectionChoisie() {
         return directionChoisie;
     }
 
-    public void setDirectionChoisie(Direction directionChoisie) {
-        this.directionChoisie = directionChoisie;
-    }
-
     @Override
     public String toString() {
-        switch (actionChoisie) {
-            case DEPLACEMENT:
-                return "\nL'équipe " + equipe.getId() +
-                        " à DÉPLACÉ le navire " + idNavire +
-                        " vers le " + directionChoisie +"\n";
-
-            case PECHE:
-                return "\nL'équipe " + equipe.getId() +
-                        " à PECHÉ avec le navire " + idNavire +
-                        " vers le " + directionChoisie +"\n";
-            case TIR:
-                return "\nL'équipe " + equipe.getId() +
-                        " à TIRÉ avec le navire " + idNavire +
-                        " vers le " + directionChoisie +"\n";
-            default:
-                return "Action inconnue";
+        // Récupération du navire impliqué par la commande via son ID
+        Navire navire = null;
+        for (Navire nav : equipe.getListeNavire()) {
+            if (nav.getId() == idNavire) {
+                navire = nav;
+            }
         }
+
+        // Si on a trouvé le navire impliqué
+        if (navire != null) {
+            // Affichage selon l'action réalisée
+            switch (actionChoisie) {
+                case DEPLACEMENT:
+                    return "\nL'équipe " + equipe.getId() +
+                            " à DÉPLACÉ son " + navire.getMyType() + " n°" + idNavire +
+                            " vers le " + directionChoisie + "";
+
+                case PECHE:
+                    return "\nL'équipe " + equipe.getId() +
+                            " à PECHÉ son " + navire.getMyType() + " n°" + idNavire +
+                            " vers le " + directionChoisie + "";
+                case TIR:
+                    return "\nL'équipe " + equipe.getId() +
+                            " à TIRÉ avec son " + navire.getMyType() + " n°" + idNavire +
+                            " vers le " + directionChoisie + "";
+                default:
+                    return "Action inconnue";
+            }
+        }
+        return "Commande avec un navire inconnu";
     }
 }

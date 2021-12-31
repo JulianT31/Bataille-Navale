@@ -15,20 +15,23 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Classe Jeu qui est la classe principale qui va appeler tout le monde
+ * @author Julian TRANI 1A SRI
+ */
 public class Jeu {
     // Attributs
+    private final int NBR_JOUEUR = 3;
     protected int taille;
     protected Plateau plateau;
     protected ArrayList<Joueur> joueurs;
     private Random random;
     private Scanner scanner;
-    private boolean fini;
-    private final int MAX_NBR_BATEAU = 3;
-    private final int NBR_JOUEUR = 3;
     private int nbTour;
 
     // Constructeurs
     public Jeu(int taille) throws JeuException {
+        // Vérification que la grille ne soit pas trop petite
         if (taille < 3) {
             throw new JeuException("La taille du plateau doit être supérieur à 3");
         }
@@ -40,30 +43,39 @@ public class Jeu {
         this.nbTour = 1;
     }
 
+    /**
+     * Porte d'entrée de la bataille navale.
+     * C'est la function à éxécuter
+     */
     public void jouer() {
+        // Affichage du menu
+        affichageMenu();
+        ToolCouleur.printCouleur("Appupyer sur la touche Entrée pour continuer ... ", Couleur.ANSI_BLUE);
+        scanner.nextLine();
 
-//        affichageMenu();
-        System.out.println("Press Enter key to continue...");
 
         // Init Partie
         creationJoueur();
         attributionNavire();
         positionnementNavire();
-        System.out.println("Voici le plateau :");
 
+        // Affichage du jeu avant de démarrer la partie
+        System.out.println("\nVoici le plateau :");
         plateau.affiche(null);
         affichageJoueurs();
 
+        // Boucle de jeu (tant que la partie n'est pas fini, on joue)
         while (!isGagne()) {
             System.out.println("========================");
             System.out.println("Début du tour " + nbTour);
             System.out.println("========================");
+            // On fait jouer chaque équipe chacun leur tour
             for (Joueur j : joueurs) {
                 // Si on a perdu, on joue pas !
                 if (j.getListeNavire().size() == 0) {
-                    System.out.println("* L'équipe " + j.getId() + " a perdu, du coup elle passe son tour");
+                    System.out.println("\n=> Au tour de l'équipe " + j.getId() + " mais elle a perdu, du coup elle passe son tour");
                 } else {
-                    System.out.println("* Au tour de l'équipe " + j.getId() + " de jouer !");
+                    System.out.println("\n=> Au tour de l'équipe " + j.getId() + " de jouer !");
                     plateau.affiche(j);
                     majJeuAvCommande(j.getCommande());
                 }
@@ -77,50 +89,30 @@ public class Jeu {
         }
     }
 
+    /**
+     * Méthode qui va simplement qui va simplement afficher
+     * les règles du jeu avant de lancer la partie
+     */
     public void affichageMenu() {
         System.out.println("\n" +
-                "Bienvenue dans la Bataille Navale !\n" +
+                "Bienvenue dans la Bataille Navale ! (Julian TRANI 1A SRI)\n" +
                 "\n" +
-                "Les règles sont très simples, 3 équipes dont 2 militaires et une neutre s'affrontent sur un plateau, le but étant d'éliminer une équipe la plus vite possible.\n" +
-                "Pour cela, différentes actions sont disponibles selon votre équipe. Le militaire peut tirer tandis que l'équipe neutre peut pécher avec leur chalutier.\n" +
-                "Les chalutiers peuvent détruire les sous-marins grâce à leur filet de pêche.\n" +
+                "Les règles sont très simples :" +
+                "\n\t- un plateau " +
+                "\n\t- trois équipes dont deux militaires (DESTROYER/SOUS-MARIN) et une neutre (CHALUTIER)" +
+                "\n\t- trois actions possibles (DEPLACEMENT/TIR/PECHE)" +
+                "\n\t- pour gagner, l'éliminer l'une des deux équipes adverses" +
+                "\n\t- le chalutier peut endommager les sous marins avec leur filet" +
+                "\n\t- le destroyer peut tirer seulement sur les navires de surface" +
+                "\n\t- le sous marin peut tirer seulement sur les sous marins" +
                 "\n" +
-                "/!\\ Attention où vous tirez, vous pouvez attaquer vos propres bateaux.\n" +
-                "\n" +
-                "Les sous-marins peuvent se deplacer sous les autres navires.\n" +
-                "\n" +
-                "Appuyez sur la touche Entrer pour commencer la partie ! ");
+                "/!\\ Attention vous pouvez attaquer vos propres bateaux !\n");
     }
 
-    public void choixJoueurs() {
-        // Variables
-        int action;
-        int nombreAction = Action.values().length;
-
-        do {
-            for (int i = 1; i <= nombreAction; i++) {
-                System.out.println("" + i + " - " + Action.values()[i - 1]);
-            }
-            System.out.print("Action : ");
-            action = scanner.nextInt();
-        } while (action < 0 || action > nombreAction);
-
-
-        switch (action) {
-            case 1:
-                System.out.println("Déplacement");
-                break;
-            case 2:
-                System.out.println("Tir");
-                break;
-            case 3:
-                System.out.println("Peche");
-                break;
-            default:
-                break;
-        }
-    }
-
+    /**
+     * Création des différentes equipes (peche et bataillon)
+     * + affectation de l'équipe pour l'utilisateur
+     */
     public void creationJoueur() {
         // Variables
         int numRandom = random.nextInt(3) + 1;
@@ -154,14 +146,19 @@ public class Jeu {
         Collections.shuffle(this.joueurs);
     }
 
+    /**
+     * Affiche un récapitulatif de l'état de la partie selon les équipes
+     * (affiche l'état de l'équipe (perdu ou non) et les navires encore vivants)
+     */
     public void affichageJoueurs() {
         System.out.println("\nRécaptitulatif des joueurs :");
 
         for (Joueur j : this.joueurs) {
+            // Si l'équipe a perdu
             if (j.isPerdu()) {
-                System.out.print("- EQUIPE " + j.getId() + "-  Perdu !\n");
-            } else {
-                // Si c'est notre équipe alors on l'affiche en couleur
+                System.out.print("- EQUIPE " + j.getId() + " - Perdu !\n");
+            } else { // Sinon l'équipe est encore en vie
+                // Si on a trouvé l'équipe alors on l'affiche en couleur pour faciliter la lecture
                 if (j.getNature() == Nature.HUMAIN) {
                     ToolCouleur.printCouleur("- (VOUS) " + j + "\n", Couleur.ANSI_BLUE);
                 } else {
@@ -172,7 +169,9 @@ public class Jeu {
         System.out.println("");
     }
 
-
+    /**
+     * Création des navires
+     */
     public void attributionNavire() {
         int idCpt = 1;
         for (Joueur joueur : this.joueurs) {
@@ -184,10 +183,16 @@ public class Jeu {
             } else {
                 joueur.addNavire(new Chalutier(idCpt, TypeNav.CHALUTIER, joueur.getId()));
                 idCpt++;
+                joueur.addNavire(new Chalutier(idCpt, TypeNav.CHALUTIER, joueur.getId()));
+                idCpt++;
             }
         }
     }
 
+
+    /**
+     * Initialisation des bateaux, on les place dans la grille
+     */
     public void positionnementNavire() {
         // Pour chaque joueurs
         for (Joueur joueur : this.joueurs) {
@@ -208,11 +213,22 @@ public class Jeu {
         }
     }
 
-    public void finDePartie(int numJ) {
-        System.out.println("Bravo, le joueur " + numJ + " a gagné !");
+    /**
+     * Affichage de la fin de partie avec le gagnant
+     *
+     * @param joueur
+     */
+    public void finDePartie(Joueur joueur) {
+        ToolCouleur.printCouleur("Bravo, c'est le joueur de l'équipe " + joueur.getId() + " (" + joueur.getNature() + ") qui a gagné !", Couleur.ANSI_GREEN);
     }
 
+    /**
+     * Redirection vers les functions selon l'action de la commande passée en paramètre
+     *
+     * @param commande : commande joué juste avant
+     */
     public void majJeuAvCommande(Commande commande) {
+        // Vérification que la commande n'est pas null pour eviter les NullPointeurException
         if (commande != null) {
             switch (commande.getActionChoisie()) {
                 case DEPLACEMENT:
@@ -230,6 +246,11 @@ public class Jeu {
         }
     }
 
+    /**
+     * Réalise l'action de tir grâce les informations sur la commande
+     *
+     * @param commande
+     */
     public void majJeuCasTir(Commande commande) {
         if (commande != null) {
             // Récupération du navire à partir de la commande
@@ -256,16 +277,29 @@ public class Jeu {
 
                     // Vérification des coordonnées pour éviter de sortir de la grille
                     if (isValidPosition(position)) {
-
-                        // Verification si on a touché un bateau
-                        if (plateau.getCasePlateau(position.x, position.y).isEstOccupeeSurface()) {
-                            Navire navireTouche = plateau.getCasePlateau(position.x, position.y).getOccupantSurface();
-                            // Suppression du navire qui a été coulé
-                            majListeNavire(navireTouche);
-                            // Suppresion de l'occupant
-                            plateau.getCasePlateau(position.x, position.y).removeUnOccupant(navireTouche);
-                            touche = true; // Sortir si on a touché
-                            System.out.println("Joli tir ! Vous avez coulé le " + navireTouche.getMyType() + " de l'équipe " + navireTouche.getNumEq());
+                        if (navire instanceof NavireSurface) {
+                            // Verification si on a touché un bateau
+                            if (plateau.getCasePlateau(position.x, position.y).isEstOccupeeSurface()) {
+                                Navire navireTouche = plateau.getCasePlateau(position.x, position.y).getOccupantSurface();
+                                // Suppression du navire qui a été coulé
+                                majListeNavire(navireTouche);
+                                // Suppresion de l'occupant
+                                plateau.getCasePlateau(position.x, position.y).removeUnOccupant(navireTouche);
+                                touche = true; // Sortir si on a touché
+                                System.out.println("Joli tir ! Vous avez coulé le " + navireTouche.getMyType() + " de l'équipe " + navireTouche.getNumEq());
+                            }
+                            // Les sous marins peuvent touché que les sous marins
+                        } else if (navire instanceof NavireProfondeur) {
+                            // Verification si on a touché un bateau
+                            if (plateau.getCasePlateau(position.x, position.y).isEstOccupeeProfondeur()) {
+                                Navire navireTouche = plateau.getCasePlateau(position.x, position.y).getOccupantProfondeur();
+                                // Suppression du navire qui a été coulé
+                                majListeNavire(navireTouche);
+                                // Suppresion de l'occupant
+                                plateau.getCasePlateau(position.x, position.y).removeUnOccupant(navireTouche);
+                                touche = true; // Sortir si on a touché
+                                System.out.println("Joli tir ! Vous avez coulé le " + navireTouche.getMyType() + " de l'équipe " + navireTouche.getNumEq());
+                            }
                         }
                     }
                 }
@@ -293,12 +327,19 @@ public class Jeu {
                 if (casePlateau.isEstOccupeeProfondeur()) {
                     SousMarin sousMarin = (SousMarin) casePlateau.getOccupantProfondeur();
                     sousMarin.setEndommage(true);
-                    System.out.println("Vous avez endommagé le sous marin n°" + sousMarin.getId());
+                    System.out.print("Vous avez endommagé le sous marin n°" + sousMarin.getId());
                 }
+                // On remonte le filet (ou il est detruit par le sous marin en dessous)
+                navire.resetFilet();
             }
         }
     }
 
+    /**
+     * Supprime le navire passé en paramètre
+     *
+     * @param navire : le navrire à supprimer
+     */
     public void majListeNavire(Navire navire) {
         // On parcourt chaque équipe
         for (Joueur j : joueurs) {
@@ -307,7 +348,13 @@ public class Jeu {
         }
     }
 
+    /**
+     * Action de déplacement d'un navire
+     *
+     * @param commande : la commande avec tous les informations sur l'action
+     */
     public void majJeuCasDeplacement(Commande commande) {
+        // Vérification que la commande est pas null (normalement elle est jamais null mais on sait jamais)
         if (commande != null) {
             // Récupération du navire à partir de la commande
             Navire navire = null;
@@ -318,10 +365,11 @@ public class Jeu {
                 }
             }
 
+            // Vérification que l'on a bien trouvé le navire
             if (navire != null) {
                 // Cas particulier si on a un sous marin endommagé
                 if (navire instanceof SousMarin && ((SousMarin) navire).isEndommage()) {
-                    ToolCouleur.printCouleur("Vous ne pouvez pas bouger votre sous-marin il est endommagé", Couleur.ANSI_RED);
+                    ToolCouleur.printCouleur("Vous ne pouvez pas bouger votre sous-marin il est endommagé\n", Couleur.ANSI_RED);
                     return;
                 }
 
@@ -341,6 +389,8 @@ public class Jeu {
                             navire.setPosition(position);
                             // Ajout du bateau dans la nouvelle case
                             plateau.getCasePlateau(position.x, position.y).addUnOccupant(navire);
+                        } else { // Erreur
+                            ToolCouleur.printCouleur("Il y a déjà un bateau sur cette case !\n", Couleur.ANSI_RED);
                         }
                     } else {
 
@@ -352,15 +402,25 @@ public class Jeu {
                             navire.setPosition(position);
                             // Ajout du bateau dans la nouvelle case
                             plateau.getCasePlateau(position.x, position.y).addUnOccupant(navire);
+                        } else { // Erreur
+                            ToolCouleur.printCouleur("Il y a déjà un bateau sur cette case !\n", Couleur.ANSI_RED);
                         }
                     }
-                } else {
-                    ToolCouleur.printCouleur("Vous ne pouvez pas vous déplacer par la ! Dommage vous avez perdu votre tour !", Couleur.ANSI_RED);
+                } else { // Erreur
+                    ToolCouleur.printCouleur("Vous ne pouvez pas vous déplacer par la ! Dommage vous avez perdu votre tour !\n", Couleur.ANSI_RED);
                 }
             }
         }
     }
 
+    /**
+     * Génère un nouveau point en fonction de la direction passée en paramètre
+     *
+     * @param direction : la direction (NORD-SUD-OUEST-EST)
+     * @param x         : la position x actuelle
+     * @param y         : la position y actuelle
+     * @return la nouvelle position
+     */
     public Point generateNewPosition(Direction direction, int x, int y) {
         // New Position
         Point position = new Point();
@@ -386,6 +446,12 @@ public class Jeu {
         return position;
     }
 
+    /**
+     * Vérifie les coordonnées passé en paramètre selon la grille du plateau
+     *
+     * @param position : les coordonnées a vérifier
+     * @return boolean
+     */
     public boolean isValidPosition(Point position) {
         return position.x >= 0 && position.x < this.taille && position.y >= 0 && position.y < this.taille;
     }
@@ -399,6 +465,7 @@ public class Jeu {
         // Variables
         int IDequipePerdante = -1;
         int IDequipeGagnante = -1;
+        Joueur joueurGagnant;
         int maxBateaux = -1;
 
         // Recherche si on a une équipe perdante
@@ -421,7 +488,8 @@ public class Jeu {
                 IDequipeGagnante = i;
             }
         }
-        finDePartie(IDequipeGagnante);
+
+        finDePartie(joueurs.get(IDequipeGagnante));
         return true;
     }
 }
