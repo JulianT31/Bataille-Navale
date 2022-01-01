@@ -7,6 +7,8 @@ import tools.Direction;
 
 /**
  * Classe commande qui va permettre de savoir l'action réaliser par les joueurs
+ *
+ * @author Julian TRANI 1A SRI
  */
 public class Commande {
     // Attributs

@@ -112,7 +112,7 @@ public abstract class Equipe implements Humain, Ia {
         // Saisie et vérification de la saisie du numéro du navire
         do {
             System.out.print("Numéro du navire (de 0 a " + (listeNavire.size() - 1) + ") : ");
-            strIdNav = sc.nextLine();
+            strIdNav = sc.nextLine().trim();
         } while (!verifSaisie(strIdNav));
 
         // Saisie et vérification de la saisie du déplacement
@@ -120,7 +120,7 @@ public abstract class Equipe implements Humain, Ia {
             if (myStatut == Statut.MILITAIRE)
                 System.out.print("Action (DEPLACEMENT, TIR) : ");
             else System.out.print("Action (DEPLACEMENT, PECHE) : ");
-            strAction = sc.nextLine();
+            strAction = sc.nextLine().trim();
         } while (((myStatut == Statut.MILITAIRE) && (strAction.compareTo("DEPLACEMENT") != 0) && (strAction.compareTo("TIR") != 0)) ||
                 ((myStatut == Statut.NEUTRE) && (strAction.compareTo("DEPLACEMENT") != 0) && (strAction.compareTo("PECHE") != 0)));
 
@@ -129,12 +129,10 @@ public abstract class Equipe implements Humain, Ia {
             // Saisie et vérification de la saisie de la direction
             do {
                 System.out.print("Direction (NORD, SUD, EST, OUEST) : ");
-                strDirection = sc.nextLine();
+                strDirection = sc.nextLine().trim();
             } while ((strDirection.compareTo("NORD") != 0) && (strDirection.compareTo("SUD") != 0) &&
                     (strDirection.compareTo("EST") != 0) && (strDirection.compareTo("OUEST") != 0));
         }
-
-
         // Création de la commande avec les saisies précédentes
         myCommande = new Commande(this, String.valueOf(listeNavire.get(Integer.parseInt(strIdNav)).getId()), strAction, strDirection);
     }

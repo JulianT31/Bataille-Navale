@@ -14,7 +14,7 @@ A voir si j'ai le temps (du coup non):
 
 BUG :
 
-[ ] Bug d'affichage couleur sur le plateau quand C et S sur même case mais pas la meme équipe
+[X] Bug d'affichage couleur sur le plateau quand C et S sur même case mais pas la meme équipe
 [ ] Vider les espaces en fin de ligne dans les saisies
 
 

@@ -6,6 +6,8 @@ import tools.ToolCouleur;
 
 /**
  * Classe Plateau
+ *
+ * @author Julian TRANI 1A SRI
  */
 public class Plateau {
     // Attributs
@@ -29,23 +31,18 @@ public class Plateau {
         return taille;
     }
 
+    /**
+     * Retourne la CasePlateau à partir des coordonnées si elle existe
+     *
+     * @param x  : coordonées x de la grille
+     * @param y: coordonées y de la grille
+     * @return la CasePlateau si les coords sont valides sinon null
+     */
     public CasePlateau getCasePlateau(int x, int y) {
         if (x >= 0 && y >= 0 && x < this.taille && y < this.taille) {
             return this.matricePlateau[x][y];
         }
         return null;
-    }
-
-    public int nombreBateauPlateau() {
-        int cpt = 0;
-        for (int i = 0; i < this.taille; i++) {
-            for (int j = 0; j < this.taille; j++) {
-                if (!this.getCasePlateau(i, j).toString().contains("~")) {
-                    cpt++;
-                }
-            }
-        }
-        return cpt;
     }
 
     /**

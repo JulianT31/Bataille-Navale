@@ -152,18 +152,4 @@ public class CasePlateau {
             }
         }
     }
-
-//
-//    @Override
-//    public String toString() {
-//        String res = " ~ ";
-//        if (isEstOccupeeSurface() && isEstOccupeeProfondeur()) {
-//            res = "" + occupant.affichagePlateau() + " " + sousmarin.affichagePlateau();
-//        } else if (isEstOccupeeSurface()) {
-//            res = " " + occupant.affichagePlateau() + " ";
-//        } else if (isEstOccupeeProfondeur()) {
-//            res = " " + sousmarin.affichagePlateau() + " ";
-//        }
-//        return res;
-//    }
 }

@@ -1,165 +1,212 @@
 @startuml
 
-title __BATAILLE-NAVALE's Class Diagram__\n
+title Diagramme de classe Bataille Navale \n
+
 
     class Main {
     }
-  
 
-    namespace quipe {
+
+    namespace equipe {
       class equipe.EqBataillon {
       }
     }
+
   
 
-    namespace quipe {
+
+    namespace equipe {
       class equipe.EqPecheur {
       }
     }
+
   
 
-    namespace quipe {
+
+    namespace equipe {
       abstract class equipe.Equipe {
       }
     }
+
   
 
-    namespace xceptions {
+
+    namespace exceptions {
       class exceptions.JeuException {
       }
     }
+
   
 
-    namespace xceptions {
-      class exceptions.LimiteException {
-      }
-    }
-  
 
-    namespace xceptions {
+    namespace exceptions {
       class exceptions.OccupException {
       }
     }
+
   
 
-    namespace oueur {
+
+    namespace joueur {
       interface joueur.Humain {
       }
     }
 
-    namespace oueur {
+  
+
+
+    namespace joueur {
       interface joueur.Ia {
       }
     }
 
-    namespace oueur {
+  
+
+
+    namespace joueur {
       interface joueur.Joueur {
       }
     }
+
   
 
-    namespace anager {
+
+    namespace manager {
       class manager.Commande {
       }
     }
+
   
 
-    namespace anager {
+
+    namespace manager {
       class manager.Jeu {
       }
     }
+
   
 
-    namespace avire {
+
+    namespace navire {
       class navire.Chalutier {
       }
     }
+
   
 
-    namespace avire {
+
+    namespace navire {
       class navire.Destroyer {
       }
     }
+
   
 
-    namespace avire {
+
+    namespace navire {
       abstract class navire.Navire {
       }
     }
+
   
 
-    namespace avire {
+
+    namespace navire {
       abstract class navire.NavireProfondeur {
       }
     }
+
   
 
-    namespace avire {
+
+    namespace navire {
       abstract class navire.NavireSurface {
       }
     }
 
-    namespace avire {
+  
+
+
+    namespace navire {
       class navire.SousMarin {
       }
     }
 
-    namespace lateau {
+  
+
+
+    namespace plateau {
       class plateau.CasePlateau {
       }
     }
+
   
 
-    namespace lateau {
+
+    namespace plateau {
       class plateau.Plateau {
       }
     }
+
   
 
-    namespace ools {
+
+    namespace tools {
       enum Action {
       }
     }
+
   
 
-    namespace ools {
+
+    namespace tools {
       enum Couleur {
       }
     }
+
   
 
-    namespace ools {
+
+    namespace tools {
       enum Direction {
       }
     }
 
-    namespace ools {
+  
+
+
+    namespace tools {
       enum Nature {
       }
     }
+
   
 
-    namespace ools {
+
+    namespace tools {
       enum Statut {
       }
     }
+
   
 
-    namespace ools {
+
+    namespace tools {
       class tools.ToolCouleur {
       }
     }
+
   
 
-    namespace ools {
+
+    namespace tools {
       enum TypeNav {
       }
     }
+
   
 
   equipe.EqBataillon -up-|> equipe.Equipe
-
-  joueur.Ia -up-|> joueur.Joueur
   equipe.EqPecheur -up-|> equipe.Equipe
   equipe.Equipe .up.|> joueur.Humain
   equipe.Equipe .up.|> joueur.Ia

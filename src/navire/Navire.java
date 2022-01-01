@@ -4,25 +4,32 @@ import tools.TypeNav;
 
 import java.awt.*;
 
+/**
+ * Classe abstraite Navire qui va permettre de faire du polymorphisme
+ * cette classe détaille tous ce qui est commun à un navire
+ *
+ * @author Julian TRANI 1A SRI
+ */
 public abstract class Navire {
+    // Attributs
     protected int id;
     protected TypeNav myType;
     protected String strAffichage;
     protected int numEq;
     protected int etat; // 0 => OK - 1 => COULE
     protected int portee;
-    protected int vitesse;
     protected Point position;
 
+    // Constructeur
     public Navire(int id, TypeNav myType, int numEq) {
         this.id = id;
         this.myType = myType;
         this.numEq = numEq;
         this.position = new Point(0, 0);
         this.portee = 0;
-        this.vitesse = 1;
     }
 
+    // GETTER / SETTER
     public int getId() {
         return id;
     }
@@ -47,16 +54,8 @@ public abstract class Navire {
         return portee;
     }
 
-    public int getVitesse() {
-        return vitesse;
-    }
-
     public void setCoule() {
         this.etat = 1;
-    }
-
-    public boolean estValide() {
-        return false;
     }
 
     public String affichagePlateau() {

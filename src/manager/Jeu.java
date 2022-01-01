@@ -17,6 +17,7 @@ import java.util.Scanner;
 
 /**
  * Classe Jeu qui est la classe principale qui va appeler tout le monde
+ *
  * @author Julian TRANI 1A SRI
  */
 public class Jeu {
