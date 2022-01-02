@@ -102,7 +102,7 @@ public class Jeu {
                 "\n\t- un plateau " +
                 "\n\t- trois équipes dont deux militaires (DESTROYER/SOUS-MARIN) et une neutre (CHALUTIER)" +
                 "\n\t- trois actions possibles (DEPLACEMENT/TIR/PECHE)" +
-                "\n\t- pour gagner, l'éliminer l'une des deux équipes adverses" +
+                "\n\t- pour gagner, éliminer l'une des deux équipes adverses" +
                 "\n\t- le chalutier peut endommager les sous marins avec leur filet" +
                 "\n\t- le destroyer peut tirer seulement sur les navires de surface" +
                 "\n\t- le sous marin peut tirer seulement sur les sous marins" +

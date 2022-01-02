@@ -1,6 +1,9 @@
 import exceptions.JeuException;
 import manager.Jeu;
 
+/**
+ * @author Julian TRANI 1A SRI
+ */
 public class Main {
     public static void main(String[] args) {
         try {

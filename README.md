@@ -2,9 +2,9 @@
  
 Dernière update : 02/01/2022
 
-Auteur : Julian TRANI
+Auteur : Julian TRANI (UPSSITECH 1A SRI)
 
-Module : Programmation Orientée Objet (UPPSITECH 1A SRI)
+Module : Programmation Orientée Objet 
 
 ## Jouer
 
@@ -13,5 +13,15 @@ Plusieurs bateaux sont disponibles, d'un côté, il y a les navires de guerre (d
 
 Le but du jeu est d'éliminer une des équipes adverse, pour mettre fin à la partie. Le gagnant est ensuite déterminé  selon le nombre et l'état des bateaux encore en vie.
 
+## Prérequis
+
+Afin de pouvoir utiliser l'application, vous devez avoir sur votre machine un environement java 1.8 capable d'éxécuter du code.
+
+
 ## Lancement
 
+Pour lancement l'application, vous pouvez :
+
+- Exécuter le .jar 
+
+- Via un IDE, éxécuer le main
